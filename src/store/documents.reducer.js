@@ -2,7 +2,10 @@ const initState = {
     list: [],
     requestedDocument: {},
     loading: false,
-    serverError: false
+    serverError: false,
+    logedUser: {},
+    isAuth: false,
+    authLoaded: false
 }
 
 
@@ -10,6 +13,20 @@ const documentReducer = (state = initState, action) => {
 
     switch (action.type) {
 
+        case "USER_LOGEDIN":
+            return {
+                ...state,
+                logedUser: action.user,
+                isAuth: true,
+                authLoaded: true
+            }
+        case "USER_LOGEDOUT":
+            return {
+                ...state,
+                logedUser: {},
+                isAuth: false,
+                authLoaded: true
+            }
         case "DELETE_DOCUMENT":
             return {
                 ...state,

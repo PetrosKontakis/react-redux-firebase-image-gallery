@@ -14,6 +14,7 @@ firebase.initializeApp({
     userProfile: null
 });
 
+
 const db = firebase.firestore();
 
 export const realTimeUpdate = () => {
@@ -21,7 +22,7 @@ export const realTimeUpdate = () => {
         db.collection("imageDocuments").orderBy("createDate")
             .onSnapshot(function (documentSnapshots) {
 
-                console.log("Real time executed")
+                // console.log("Real time imageDocuments changes")
                 var documents = documentSnapshots.docs.map((dc) => {
                     return {
                         ...dc.data(),
@@ -31,6 +32,23 @@ export const realTimeUpdate = () => {
                 dispatch({ type: 'GET_DOCUMENTS', documents });
 
             });
+
+        firebase.auth().onAuthStateChanged(function (user) {
+
+            // console.log("Real time User changes")
+            if (user) {
+                // User is signed in.
+                const { displayName, email, emailVerified, photoURL, isAnonymous, uid, providerData } = user;
+                dispatch({
+                    type: 'USER_LOGEDIN',
+                    user: { displayName, email, emailVerified, photoURL, isAnonymous, uid, providerData }
+                });
+            } else {
+                dispatch({
+                    type: 'USER_LOGEDOUT'
+                });
+            }
+        });
     }
 }
 
@@ -116,13 +134,49 @@ export const getDocument = (id) => {
 
 export const editDocument = (document) => {
     return (dispatch, getState) => {
-               
+
         // // make async call to database
         db.collection("imageDocuments").doc(document.id).update(document)
             .then((response) => {
-             
+
             }).catch((error) => {
                 dispatch({ type: 'GET_DOCUMENTS_SERVER_ERROR' });
             })
+    }
+}
+
+export const login = (credentials) => {
+    return (dispatch, getState) => {
+
+        // const firebase = getFirebase();
+        firebase.auth().signInWithEmailAndPassword(
+            credentials.email,
+            credentials.password
+        ).then((e) => {
+
+            // console.log(e.user)
+            if (e.user) {
+                // User is signed in.
+                const { displayName, email, emailVerified, photoURL, isAnonymous, uid, providerData } = e.user;
+                dispatch({
+                    type: 'USER_LOGEDIN',
+                    user: { displayName, email, emailVerified, photoURL, isAnonymous, uid, providerData }
+                });
+            }
+        }).catch((err) => {
+            console.log("Login error")
+        });
+    }
+}
+
+export const logout = () => {
+    return (dispatch, getState) => {
+        firebase.auth().signOut().then(() => {
+            dispatch({
+                type: 'USER_LOGEDOUT'
+            });
+        }).catch((err) => {
+            console.log("Logout error")
+        });
     }
 }

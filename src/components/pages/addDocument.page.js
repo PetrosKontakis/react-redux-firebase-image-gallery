@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { createDocument } from '../../store/actions'
 import Dropzone from 'react-dropzone'
+import { Redirect } from 'react-router-dom'
 
 class AddDocumentPage extends Component {
 
@@ -50,12 +51,14 @@ class AddDocumentPage extends Component {
     render() {
 
         const { title, content, url } = this.state;
+
+        if (!this.props.isAuth && this.props.authLoaded) {
+            return (<Redirect to='/login' />)
+        }
+
         return (
-
             <div>
-
                 <h1>Add to gallery</h1>
-
                 <form onSubmit={this.onFormSubmit}>
                     <Dropzone
                         onDrop={this.onInputFileInput}>
@@ -85,9 +88,6 @@ class AddDocumentPage extends Component {
                                         <img src={url} alt={title} />
                                     </div>
                                 )}
-
-
-
                             </div>
                         )}
                     </Dropzone>
@@ -97,12 +97,9 @@ class AddDocumentPage extends Component {
                             type="file"
                             id="file"
                             onChange={(e) => this.onInputFileInput(e.target.files)} />
-
                     </div>
 
                     <button type="submit">add</button>
-
-
                 </form>
             </div>
         )
@@ -115,5 +112,12 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(AddDocumentPage);
+const mapStateToParams = state => {
+    return {
+        isAuth: state.document.isAuth,
+        authLoaded: state.document.authLoaded
+    }
+}
+
+export default connect(mapStateToParams, mapDispatchToProps)(AddDocumentPage);
 
