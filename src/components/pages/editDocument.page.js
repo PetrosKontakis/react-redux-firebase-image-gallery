@@ -30,10 +30,8 @@ class EditDocumentPage extends Component {
         e.preventDefault();
 
         // const id = new Date().getTime()
-        const newDocument = {
-            ...this.state,
-            createDate: new Date().getTime()
-        };
+        const { title, content, id } = this.state;
+        const newDocument = { title, content, id };
 
         this.setState({
             title: '',
@@ -70,10 +68,7 @@ class EditDocumentPage extends Component {
                                 <label htmlFor="content">Description: </label>
                                 <input type="text" id="content" value={content} onChange={this.onInputChange} />
                             </div>
-                            <div>
-                                <label htmlFor="url">Url: </label>
-                                <input type="text" id="url" value={url} onChange={this.onInputChange} />
-                            </div>
+                            <img src={url} alt={title} />
 
                             <button type="submit">edit</button>
                         </form>
