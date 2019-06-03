@@ -1,18 +1,10 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore';
 import 'firebase/auth';
+import {firebaseConf} from '../config';
 
 // Initialize Cloud Firestore through Firebase
-firebase.initializeApp({
-    apiKey: "AIzaSyDYefnvwm3HhhnufJ0X6TDmduJ9m8lcdbg",
-    authDomain: "p-project-6eb83.firebaseapp.com",
-    databaseURL: "https://p-project-6eb83.firebaseio.com",
-    projectId: "p-project-6eb83",
-    storageBucket: "p-project-6eb83.appspot.com",
-    messagingSenderId: "571066696652",
-    appId: "1:571066696652:web:a2f2aa637e6c7e4a",
-    userProfile: null
-});
+firebase.initializeApp(firebaseConf);
 
 
 const db = firebase.firestore();
