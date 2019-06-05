@@ -2,6 +2,7 @@
   "name": "gallery",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://petroskontakis.github.io/react-redux-firebase-image-gallery",
   "dependencies": {
     "firebase": "^6.1.0",
     "react": "^16.8.6",
@@ -14,6 +15,7 @@
     "redux-thunk": "^2.3.0"
   },
   "scripts": {
+    "deploy": "npm run build&&gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
