@@ -1,20 +1,31 @@
 import firebase from 'firebase/app'
 import 'firebase/firestore';
 import 'firebase/auth';
-import {firebaseConf} from '../config';
+import { firebaseConf } from '../config';
 
 // Initialize Cloud Firestore through Firebase
 firebase.initializeApp(firebaseConf);
-
 
 const db = firebase.firestore();
 
 export const realTimeUpdate = () => {
     return (dispatch, getState) => {
         db.collection("imageDocuments").orderBy("createDate")
-            .onSnapshot(function (documentSnapshots) {
+            .onSnapshot({
+                // Listen for document metadata changes
+                includeMetadataChanges: true
+            }, function (documentSnapshots) {
 
                 // console.log("Real time imageDocuments changes")
+                // var hasPendingWrites = documentSnapshots.metadata.hasPendingWrites;
+
+                // console.log(`Has pending writes: ${hasPendingWrites}`)
+
+                // if (hasPendingWrites) {
+                //     return;
+                // }
+            
+
                 var documents = documentSnapshots.docs.map((dc) => {
                     return {
                         ...dc.data(),
@@ -47,6 +58,10 @@ export const realTimeUpdate = () => {
 export const createDocument = (document) => {
     return (dispatch, getState) => {
 
+        dispatch({
+            type: 'CREATE_DOCUMENT',
+            loading: true
+        });
         // make async call to database
         db.collection("imageDocuments").add(document)
             .then((response) => {
@@ -58,8 +73,10 @@ export const createDocument = (document) => {
                     }
                 });
             }).catch((error) => {
-                dispatch({ type: 'GET_DOCUMENTS_SERVER_ERROR' });
-                console.error(error);
+                dispatch({
+                    type: 'CREATE_DOCUMENT',
+                    error: error
+                });
             })
     }
 };
@@ -67,7 +84,7 @@ export const createDocument = (document) => {
 export const getDocuments = () => {
     return (dispatch, getState) => {
         // make async call to database
-        dispatch({ type: 'GET_DOCUMENTS_LOADING' });
+        dispatch({ type: 'GET_DOCUMENTS', loading: true });
 
         db.collection("imageDocuments")
             .orderBy("createDate").get().then(function (documentSnapshots) {
@@ -78,11 +95,11 @@ export const getDocuments = () => {
                         id: dc.id
                     }
                 }).reverse();
+
                 dispatch({ type: 'GET_DOCUMENTS', documents });
 
             }).catch((error) => {
-                dispatch({ type: 'GET_DOCUMENTS_SERVER_ERROR' });
-                console.log(error);
+                dispatch({ type: 'GET_DOCUMENTS', error: error });
             })
     }
 };
@@ -91,18 +108,20 @@ export const deleteDocument = (document) => {
     return (dispatch, getState) => {
 
         dispatch({
-            type: 'DELETE_DOCUMENT',
-            document
+            type: 'DELETE_DOCUMENT', loading: true
         });
         // make async call to database
         db.collection("imageDocuments").doc(document.id).delete()
             .then((response) => {
-                // dispatch({
-                //     type: 'DELETE_DOCUMENT',
-                //     document
-                // });
+                dispatch({
+                    type: 'DELETE_DOCUMENT',
+                    document
+                });
             }).catch((error) => {
-                dispatch({ type: 'GET_DOCUMENTS_SERVER_ERROR' });
+                dispatch({
+                    type: 'DELETE_DOCUMENT',
+                    error: error
+                });
             })
     }
 };
@@ -111,14 +130,14 @@ export const getDocument = (id) => {
     return (dispatch, getState) => {
 
         // make async call to database
-        dispatch({ type: 'GET_DOCUMENTS_LOADING' });
+        dispatch({ type: 'GET_DOCUMENT', loading: true });
         db.collection("imageDocuments")
             .doc(id).get()
             .then(function (documentSnapshots) {
                 dispatch({ type: 'GET_DOCUMENT', document: { id: documentSnapshots.id, ...documentSnapshots.data() } })
 
             }).catch((error) => {
-                dispatch({ type: 'GET_DOCUMENTS_SERVER_ERROR' });
+                dispatch({ type: 'GET_DOCUMENT', erorr: error });
                 console.log(error);
             })
     }

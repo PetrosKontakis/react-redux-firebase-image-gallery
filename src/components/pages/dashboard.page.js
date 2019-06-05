@@ -33,11 +33,11 @@ class DashboardPage extends Component {
 
 const mapStateToProp = (state) => {
     return {
-        list: state.document.list,
-        loading: state.document.loading,
-        serverError: state.document.serverError,
-        isAuth: state.document.isAuth,
-        authLoaded: state.document.authLoaded
+        list: state.document.getImageDocumensStore.getDocuments(),
+        loading: state.document.getImageDocumensStore.isLoading(),
+        serverError: state.document.getImageDocumensStore.getServerError(),
+        isAuth: state.auth.authUserStore.isUserAuth(),
+        authLoaded: state.auth.authUserStore.isLoaded()
     }
 }
 

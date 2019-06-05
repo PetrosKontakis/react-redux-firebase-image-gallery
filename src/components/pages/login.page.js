@@ -53,8 +53,8 @@ class LoginPage extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        isAuth: state.document.isAuth,
-        authLoaded: state.document.authLoaded
+        isAuth: state.auth.authUserStore.isUserAuth(),
+        authLoaded: state.auth.authUserStore.isLoaded()
     }
 }
 

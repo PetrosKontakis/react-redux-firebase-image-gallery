@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { getDocument, editDocument } from '../../store/actions'
-import {Redirect} from 'react-router-dom'
+import { Redirect } from 'react-router-dom'
 
 
 class EditDocumentPage extends Component {
@@ -14,8 +14,8 @@ class EditDocumentPage extends Component {
     }
 
     componentWillReceiveProps = (nextProps) => {
-        if (nextProps.requestedDocument) {
-            const { title, content, url, id } = nextProps.requestedDocument;
+        if (nextProps.getImageDocumentStore && nextProps.getImageDocumentStore.imgDoc) {
+            const { title, content, url, id } = nextProps.getImageDocumentStore.imgDoc;
             this.setState({ title, content, url, id });
         }
     }
@@ -31,7 +31,6 @@ class EditDocumentPage extends Component {
     onFormSubmit = (e) => {
         e.preventDefault();
 
-        // const id = new Date().getTime()
         const { title, content, id } = this.state;
         const newDocument = { title, content, id };
 
@@ -47,23 +46,23 @@ class EditDocumentPage extends Component {
     }
 
     render() {
-        
-        const { loading, serverError, requestedDocument } = this.props;
+
+        const { getImageDocumentStore } = this.props;
         const { title, content, url } = this.state;
 
-        if(!this.props.isAuth && this.props.authLoaded){
-            return (<Redirect to='/login'/>)
+        if (!this.props.isAuth && this.props.authLoaded) {
+            return (<Redirect to='/login' />)
         }
-        
+
         return (
             <div>
                 <h1>Add to gallery</h1>
 
-                {loading && (<div>loading...</div>)}
-                {serverError && (<div>Server error!</div>)}
+                {!getImageDocumentStore.isLoaded() && (<div>loading...</div>)}
+                {getImageDocumentStore.hasServerError() && (<div>Server error!</div>)}
 
                 {
-                    requestedDocument &&
+                    getImageDocumentStore.isLoaded() &&
                     (
                         <form onSubmit={this.onFormSubmit}>
 
@@ -94,12 +93,12 @@ const mapDispatchToProps = dispatch => {
 }
 
 const mapStateToProps = (state) => {
+
     return {
-        requestedDocument: state.document.requestedDocument,
-        loading: state.document.loading,
-        serverError: state.document.serverError,
-        isAuth: state.document.isAuth,
-        authLoaded: state.document.authLoaded
+        isloaded: state.document.getImageDocumentStore.isLoaded(),
+        getImageDocumentStore: state.document.getImageDocumentStore,
+        isAuth: state.auth.authUserStore.isUserAuth(),
+        authLoaded: state.auth.authUserStore.isLoaded()
     }
 }
 
