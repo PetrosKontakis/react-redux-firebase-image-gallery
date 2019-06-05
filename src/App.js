@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { HashRouter, Switch, Route } from 'react-router-dom'
 import './App.css';
 
 import { realTimeUpdate } from './store/actions'
@@ -19,7 +19,7 @@ class App extends Component {
 
   render() {
     return (
-      <BrowserRouter>
+      <HashRouter>
         <div className="App">
           <LogoutLinkComponent />
           <Switch>
@@ -29,7 +29,7 @@ class App extends Component {
             <Route path='/edit/:id' component={EditDocumentPage} />
           </Switch>
         </div>
-      </BrowserRouter>
+      </HashRouter>
     );
   }
 }
