@@ -1,27 +1,32 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {deleteDocument} from '../store/actions';
-import {Link} from 'react-router-dom';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { deleteDocument } from '../store/actions';
+import { Link } from 'react-router-dom';
 
 class imgThumb extends Component {
 
-    onClickHandler =  (e) =>{
+    onClickHandler = (e) => {
         this.props.deleteDocument(this.props.image);
     }
-    
-    render(){
-        const {id, url, title, content}  = this.props.image;
+
+    render() {
+        const { id, url, title, content } = this.props.image;
         return (
-            <div>
-                <h5>{title} - {id}</h5>
-                <p>{content}</p>
-                <img src={url} style={{maxWidth: '100%'}} alt={title}/>
-                <button onClick={this.onClickHandler}>Delete</button> 
-                <Link to={'edit/' + id}>Edit</Link>
+            <div className="img-thumb">
+
+
+                <img src={url} alt={title} />
+
+                <div className="img-thumb-info-container">
+                    <h5>{title} - {id}</h5>
+                    <p>{content}</p>
+                    <button className="btn-primary" onClick={this.onClickHandler}>Delete</button>
+                    <Link className="btn-primary" to={'edit/' + id}>Edit</Link>
+                </div>
             </div>
         )
     }
-    
+
 }
 
 const mapDispatchToProps = dispatch => {

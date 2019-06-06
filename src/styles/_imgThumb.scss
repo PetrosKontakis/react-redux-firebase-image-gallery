@@ -1,0 +1,43 @@
+@import "variables";
+
+.img-thumb {
+  display: inline-block;
+  position: relative;
+  margin: 8px;
+  border-radius: 2px;
+  overflow: hidden;
+  img {
+    height: 220px;
+  }
+  &::before {
+    content: "";
+    @include transition();    
+    padding: 8px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: black;
+    opacity: 0;
+  }
+  &:hover {
+    &::before {
+      opacity: 0.5;
+    }
+  }
+  .img-thumb-info-container {
+    @include transition();
+    padding: 8px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    opacity: 0;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

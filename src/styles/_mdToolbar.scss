@@ -1,0 +1,23 @@
+@import 'variables';
+
+.md-toolbar{
+    @include transition();
+    @include shadow(0 0 1px 1px rgba(0,0,0,0.3));
+    height: 38px;
+    padding: 8px 0;
+
+    .md-toolbar-actions{
+        display: inline-flex;
+    }
+}
+
+.md-branding {
+    font-size: 18px;
+    font-weight: 700;
+    color: $primary;
+    margin: 8px 0;
+    a{
+        color: $primary;
+        text-decoration: none;
+    }
+}

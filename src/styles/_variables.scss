@@ -1,0 +1,52 @@
+
+$container-width: 740px;
+
+
+$primary-dark: #71c9ce;
+$primary: #a6e3e9;
+$primary-light: #cbf1f5;
+$primary-background: #e3fdfd;
+
+
+
+// Mixins
+
+
+// Use this mixin to create a backgroung gradinent
+//
+@mixin background-gradient($angle, $color-start, $color-end) {
+    background: $color-start; /* For browsers that do not support gradients */
+    background: -webkit-linear-gradient($angle, $color-start, $color-end); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient($angle, $color-start, $color-end); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient($angle, $color-start, $color-end); /* For Firefox 3.6 to 15 */
+    background: linear-gradient($angle, $color-start, $color-end); /* Standard syntax */
+}
+
+@mixin shadow($shadow) {
+    -webkit-box-shadow: $shadow;
+    -moz-box-shadow: $shadow;
+    box-shadow: $shadow;
+}
+
+@mixin transition() {
+    -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+@mixin placeholder($color){
+    &::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+        color: $color;
+    }
+    &::-moz-placeholder { /* Firefox 19+ */
+        color: $color;
+    }
+    &:-ms-input-placeholder { /* IE 10+ */
+        color: $color;
+    }
+    &:-moz-placeholder { /* Firefox 18- */
+        color: $color;
+    }
+}
+

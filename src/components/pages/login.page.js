@@ -30,21 +30,21 @@ class LoginPage extends Component {
         }
 
         return (
-            <div>
-                <h1>Login</h1>
+            <div className="container">
+                <h1 className="md-form-title">Login</h1>
 
-                <form onSubmit={this.onFormSubmit}>
+                <form className="md-form-container" onSubmit={this.onFormSubmit}>
 
-                    <div>
+                    <div className="md-input-container">
                         <label htmlFor="email">Email: </label>
                         <input type="email" id="email" value={email} onChange={this.onInputChange} />
                     </div>
-                    <div>
-                        <label htmlFor="Password">Password: </label>
+                    <div className="md-input-container">
+                        <label  htmlFor="Password">Password: </label>
                         <input type="password" id="password" value={password} onChange={this.onInputChange} />
                     </div>
 
-                    <button type="submit">login</button>
+                    <button className="btn-primary" type="submit">login</button>
                 </form>
             </div>
         )

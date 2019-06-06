@@ -57,9 +57,9 @@ class AddDocumentPage extends Component {
         }
 
         return (
-            <div>
-                <h1>Add to gallery</h1>
-                <form onSubmit={this.onFormSubmit}>
+            <div className="container">
+                <h1 className="md-form-title">Add to gallery</h1>
+                <form className="md-form-container" onSubmit={this.onFormSubmit}>
                     <Dropzone
                         onDrop={this.onInputFileInput}>
                         {({ getRootProps, getInputProps, isDragActive, isDragReject, rejectedFiles }) => (
@@ -69,29 +69,28 @@ class AddDocumentPage extends Component {
                                 {isDragReject && (<span>Is drag reject</span>)}
                                 {rejectedFiles && (<span>Rejected files</span>)}
 
-                                <div>
+                                <div className="md-input-container">
                                     <label htmlFor="title">Title: </label>
                                     <input type="text" id="title" value={title} onChange={this.onInputChange} />
                                 </div>
-                                <div>
+                                <div className="md-input-container">
                                     <label htmlFor="content">Description: </label>
                                     <input type="text" id="content" value={content} onChange={this.onInputChange} />
                                 </div>
-                                <div>
+                                <div className="md-input-container">
                                     <label htmlFor="url">Url: </label>
                                     <input type="text" id="url" value={url} onChange={this.onInputChange} />
                                 </div>
 
                                 {url && (
-
                                     <div>
-                                        <img src={url} alt={title} />
+                                        <img src={url} alt={title} style={{width: '100%'}}/>
                                     </div>
                                 )}
                             </div>
                         )}
                     </Dropzone>
-                    <div>
+                    <div className="md-input-container">
                         <label htmlFor="file">File: </label>
                         <input
                             type="file"
@@ -99,7 +98,7 @@ class AddDocumentPage extends Component {
                             onChange={(e) => this.onInputFileInput(e.target.files)} />
                     </div>
 
-                    <button type="submit">add</button>
+                    <button className="btn-primary" type="submit">add</button>
                 </form>
             </div>
         )

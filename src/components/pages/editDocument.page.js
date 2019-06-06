@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { getDocument, editDocument } from '../../store/actions'
-import { Redirect } from 'react-router-dom'
-
+import { Redirect } from 'react-router-dom';
+import LinearLoader from '../linearLoader.component';
 
 class EditDocumentPage extends Component {
 
@@ -55,32 +55,39 @@ class EditDocumentPage extends Component {
         }
 
         return (
-            <div>
-                <h1>Add to gallery</h1>
+            <React.Fragment>
+                {!getImageDocumentStore.isLoaded() && (<LinearLoader />)}
+                <div className="container">
 
-                {!getImageDocumentStore.isLoaded() && (<div>loading...</div>)}
-                {getImageDocumentStore.hasServerError() && (<div>Server error!</div>)}
 
-                {
-                    getImageDocumentStore.isLoaded() &&
-                    (
-                        <form onSubmit={this.onFormSubmit}>
 
-                            <div>
-                                <label htmlFor="title">Title: </label>
-                                <input type="text" id="title" value={title} onChange={this.onInputChange} />
-                            </div>
-                            <div>
-                                <label htmlFor="content">Description: </label>
-                                <input type="text" id="content" value={content} onChange={this.onInputChange} />
-                            </div>
-                            <img src={url} alt={title} />
+                    {getImageDocumentStore.hasServerError() && (<div>Server error!</div>)}
 
-                            <button type="submit">edit</button>
-                        </form>
-                    )
-                }
-            </div>
+                    {
+                        getImageDocumentStore.isLoaded() &&
+                        (
+                            <React.Fragment>
+                                <h1 className="md-form-title">Edit picture</h1>
+                                <form className="md-form-container" onSubmit={this.onFormSubmit}>
+
+                                    <div className="md-input-container">
+                                        <label htmlFor="title">Title: </label>
+                                        <input type="text" id="title" value={title} onChange={this.onInputChange} />
+                                    </div>
+                                    <div className="md-input-container">
+                                        <label htmlFor="content">Description: </label>
+                                        <input type="text" id="content" value={content} onChange={this.onInputChange} />
+                                    </div>
+                                    <div>
+                                        <img src={url} alt={title} style={{ width: '100%' }} />
+                                    </div>
+                                    <button className="btn-primary" type="submit">edit</button>
+                                </form>
+                            </React.Fragment>
+                        )
+                    }
+                </div>
+            </React.Fragment>
         )
     }
 }

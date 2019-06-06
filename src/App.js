@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { HashRouter, Switch, Route } from 'react-router-dom'
-import './App.css';
+import './App.scss';
 
 import { realTimeUpdate } from './store/actions'
 import DashboardPage from './components/pages/dashboard.page';
@@ -12,7 +12,7 @@ import LogoutLinkComponent from './components/logoutLink.component';
 
 
 class App extends Component {
-  
+
   componentWillMount() {
     this.props.realTimeUpdate();
   }
@@ -21,7 +21,9 @@ class App extends Component {
     return (
       <HashRouter>
         <div className="App">
-          <LogoutLinkComponent />
+          <div>
+            <LogoutLinkComponent />
+          </div>
           <Switch>
             <Route exact path='/login' component={LoginPage} />
             <Route exact path='/' component={DashboardPage} />
